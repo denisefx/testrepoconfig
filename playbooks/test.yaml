@@ -1,24 +1,28 @@
 - hosts: all
   tasks:
+    - name: List all files in the repository
+      find:
+        paths: "{{ zuul.project.src_dir }}"
+      register: repo_files
+
+    - name: Show me the files Zuul actually sees
+      debug:
+        msg: "I found these files: {{ repo_files.files | map(attribute='path') | map('basename') | list }}"
+
     - name: Ensure README.md is GONE
       stat:
         path: "{{ zuul.project.src_dir }}/README.md"
       register: old_readme
-
-    - name: Fail if old README.md still exists
-      fail:
-        msg: "ERROR: The old README.md is still there! Delete it."
-      when: old_readme.stat.exists
 
     - name: Check for the new README.txt
       stat:
         path: "{{ zuul.project.src_dir }}/README.txt"
       register: new_readme
 
-    - name: Fail if README.txt is missing
+    - name: Final Validation
       fail:
-        msg: "ERROR: README.txt not found!"
-      when: not new_readme.stat.exists
+        msg: "Failure! Expected README.txt to exist and README.md to be gone."
+      when: old_readme.stat.exists or not new_readme.stat.exists
 
-    - name: Wait so I can see the green bar in the dashboard
+    - name: Success Wait
       command: sleep 10
