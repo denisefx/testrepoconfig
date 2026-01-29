@@ -1,5 +1,9 @@
 - hosts: all
   tasks:
+    - name: Wait for 60 seconds so I can see the logs
+      pause:
+        seconds: 60
+
     - name: Ensure README.md is GONE
       stat:
         path: "{{ zuul.project.src_dir }}/README.md"
@@ -19,7 +23,3 @@
       fail:
         msg: "ERROR: README.txt not found!"
       when: not new_readme.stat.exists
-      
-    - name: Wait for 10 seconds so I can see the logs
-      pause:
-        seconds: 60
