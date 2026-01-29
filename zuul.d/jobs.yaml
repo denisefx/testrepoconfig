@@ -1,6 +1,6 @@
 - job:
-    name: test-job
+    name: new-job
     parent: null
     nodeset:
       nodes: []
-    run: playbooks/test-run.yaml
+    run: playbooks/test.yaml
