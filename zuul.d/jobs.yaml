@@ -3,6 +3,6 @@
     parent: null
     nodeset:
       nodes:
-        - label: debian-normal
+        - label: ubuntu-jammy
           name: controller
     run: playbooks/test.yaml
