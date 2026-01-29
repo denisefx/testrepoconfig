@@ -3,11 +3,14 @@
     manager: independent
     trigger:
       github:
-      - event: pull_request
-        action:
-          - opened
-          - changed
-          - reopened
+        - event: pull_request
+          action:
+            - opened
+            - changed
+            - reopened
+        - event: pull_request
+          action: comment
+          comment: (?i)^\s*recheck\s*$
     success:
       github:
         status: 'success'
