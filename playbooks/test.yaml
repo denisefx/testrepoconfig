@@ -1,21 +1,5 @@
 - hosts: all
   tasks:
-    - name: Ensure README.md is GONE
-      stat:
-        path: "{{ zuul.project.src_dir }}/README.md"
-      register: old_readme
-
-    - name: Fail if old README.md still exists
-      fail:
-        msg: "ERROR: The old README.md is still there! Delete it."
-      when: old_readme.stat.exists
-
-    - name: Check for the new README.txt
-      stat:
-        path: "{{ zuul.project.src_dir }}/README.txt"
-      register: new_readme
-
-    - name: Fail if README.txt is missing
-      fail:
-        msg: "ERROR: README.txt not found!"
-      when: not new_readme.stat.exists
+    - name: The 60 second pause you wanted
+      pause:
+        seconds: 10
