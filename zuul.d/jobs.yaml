@@ -2,5 +2,5 @@
     name: test-job
     parent: null
     nodeset:
-      nodes: []    # <--- The "Where" (The Executor itself)
+      nodes: []
     run: playbooks/test-run.yaml
