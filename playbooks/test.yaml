@@ -1,16 +1,18 @@
 - hosts: all
   tasks:
-    - name: Search for README.md in the workspace
+    - name: Search for README.md
       shell: "find {{ zuul.executor.work_root }}/src -name 'README.md'"
       register: find_readme
       delegate_to: localhost
-      ignore_errors: yes
 
-    - name: Show the results
+    - name: Fail if README.md is missing
+      fail:
+        msg: "GATE KEEPER: README.md is missing. This PR is not allowed!"
+      when: find_readme.stdout == ""
+
+    - name: Success message
       debug:
-        msg: 
-          - "Search complete."
-          - "Found at: {{ find_readme.stdout if find_readme.stdout != '' else 'NOTHING FOUND' }}"
+        msg: "README.md found at {{ find_readme.stdout }}. All systems go!"
 
-    - name: Final Success Wait
+    - name: Success Wait
       command: sleep 10
