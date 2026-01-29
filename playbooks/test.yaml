@@ -1,29 +1,23 @@
 - hosts: all
   tasks:
-    - name: List files using the relative search
-      find:
-        # We go up two levels from the playbook to find the root of the repo
-        paths: "{{ playbook_dir }}/../../testrepo"
-      register: repo_files
+    - name: Find the actual location of the project
+      command: "find /home/zuul/zuul-output/src -name 'hehe.txt'"
+      register: find_result
       delegate_to: localhost
       ignore_errors: yes
 
-    - name: Show me the files
+    - name: Show the path discovered
       debug:
-        msg: "I found these files: {{ repo_files.files | map(attribute='path') | map('basename') | list }}"
+        msg: "The file was found at: {{ find_result.stdout }}"
 
-    - name: Ensure README.md is GONE
-      stat:
-        path: "{{ playbook_dir }}/../../testrepo/README.md"
-      register: old_readme
+    - name: List EVERYTHING in the Zuul src directory
+      shell: "ls -R /home/zuul/zuul-output/src"
+      register: full_ls
       delegate_to: localhost
 
-    - name: Check for the new README.txt
-      stat:
-        path: "{{ playbook_dir }}/../../testrepo/README.txt"
-      register: new_readme
-      delegate_to: localhost
+    - name: Print the full directory tree
+      debug:
+        var: full_ls.stdout_lines
 
     - name: Success Wait
       command: sleep 10
-      # We removed the 'fail' task temporarily so you can see the list!
