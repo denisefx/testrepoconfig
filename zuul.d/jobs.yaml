@@ -1,0 +1,8 @@
+- job:
+    name: base
+    parent: null
+    description: The base job for all Zuul jobs.
+    nodeset:
+      nodes:
+        - name: container
+          label: docker
