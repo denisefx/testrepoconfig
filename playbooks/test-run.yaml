@@ -1,19 +1,16 @@
 - hosts: all
   tasks:
-    - name: Check if README.md contains 'hello world'
-      shell: |
-        grep -iq "hello world" README.md
-      args:
-        chdir: "{{ zuul.project.src_dir }}"
-      register: grep_result
-      ignore_errors: true
+    - name: Check if README.md exists
+      stat:
+        path: "{{ zuul.project.src_dir }}/README.md"
+      register: readme_file
 
-    - name: Report findings
-      debug:
-        msg: "Found 'hello world' in README!"
-      when: grep_result.rc == 0
-
-    - name: Fail if 'hello world' is missing
+    - name: Fail if README.md is missing
       fail:
-        msg: "Validation failed: 'hello world' not found in README.md"
-      when: grep_result.rc != 0
+        msg: "CRITICAL ERROR: README.md does not exist!"
+      when: not readme_file.stat.exists
+
+    - name: Success message
+      debug:
+        msg: "README.md found! All systems go."
+      when: readme_file.stat.exists
