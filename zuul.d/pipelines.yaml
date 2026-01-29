@@ -8,6 +8,8 @@
             - opened
             - changed
             - reopened
+        - event: pull_request_comment
+          comment: (?i)^\s*recheck\s*$
     success:
       github:
         status: 'success'
