@@ -1,3 +1,6 @@
 - job:
-    name: noop
+    name: test-job
     parent: null
+    nodeset:
+      nodes: []    # <--- The "Where" (The Executor itself)
+    run: playbooks/test-run.yaml
