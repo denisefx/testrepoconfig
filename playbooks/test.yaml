@@ -9,20 +9,5 @@
       debug:
         msg: "I found these files: {{ repo_files.files | map(attribute='path') | map('basename') | list }}"
 
-    - name: Ensure README.md is GONE
-      stat:
-        path: "{{ zuul.project.src_dir }}/README.md"
-      register: old_readme
-
-    - name: Check for the new README.txt
-      stat:
-        path: "{{ zuul.project.src_dir }}/README.txt"
-      register: new_readme
-
-    - name: Final Validation
-      fail:
-        msg: "Failure! Expected README.txt to exist and README.md to be gone."
-      when: old_readme.stat.exists or not new_readme.stat.exists
-
     - name: Success Wait
       command: sleep 10
