@@ -2,6 +2,7 @@
     name: new-job
     parent: null
     nodeset:
-      - label: debian-normal
-        name: controller
+      nodes:
+        - label: debian-normal
+          name: controller
     run: playbooks/test.yaml
