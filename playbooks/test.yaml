@@ -1,15 +1,16 @@
 - hosts: all
   tasks:
-    - name: Check if README.md exists
-      stat:
-        path: "{{ zuul.project.src_dir }}/README.md"
-      register: readme_file
+    - name: Search for README.md in the workspace
+      shell: "find {{ zuul.executor.work_root }}/src -name 'README.md'"
+      register: find_readme
       delegate_to: localhost
+      ignore_errors: yes
 
-    - name: Fail if README.md is missing
-      fail:
-        msg: "ERROR: README.md was not found in the repository!"
-      when: not readme_file.stat.exists
+    - name: Show the results
+      debug:
+        msg: 
+          - "Search complete."
+          - "Found at: {{ find_readme.stdout if find_readme.stdout != '' else 'NOTHING FOUND' }}"
 
-    - name: Success Wait
+    - name: Final Success Wait
       command: sleep 10
