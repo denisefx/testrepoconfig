@@ -4,7 +4,10 @@
     trigger:
       github:
         - event: pull_request
-          action: [opened, changed, reopened]
+          action:
+            - opened
+            - changed
+            - reopened
         - event: pull_request_comment
           comment: (?i)^\s*recheck\s*$
     success:
