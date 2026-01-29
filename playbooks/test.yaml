@@ -1,23 +1,18 @@
 - hosts: all
   tasks:
-    - name: Find the actual location of the project
-      command: "find /home/zuul/zuul-output/src -name 'hehe.txt'"
-      register: find_result
+    - name: 1. Print the exact source directory path
+      debug:
+        msg: "The project is located at: {{ zuul.executor.work_root }}/src/{{ zuul.project.canonical_name }}"
+
+    - name: 2. List all files in that specific path
+      shell: "ls -R {{ zuul.executor.work_root }}/src/{{ zuul.project.canonical_name }}"
+      register: directory_contents
       delegate_to: localhost
       ignore_errors: yes
 
-    - name: Show the path discovered
+    - name: 3. Show the file list
       debug:
-        msg: "The file was found at: {{ find_result.stdout }}"
+        var: directory_contents.stdout_lines
 
-    - name: List EVERYTHING in the Zuul src directory
-      shell: "ls -R /home/zuul/zuul-output/src"
-      register: full_ls
-      delegate_to: localhost
-
-    - name: Print the full directory tree
-      debug:
-        var: full_ls.stdout_lines
-
-    - name: Success Wait
+    - name: 4. Wait so you can read the log
       command: sleep 10
