@@ -1,18 +1,15 @@
 - hosts: all
   tasks:
-    - name: 1. Print the exact source directory path
-      debug:
-        msg: "The project is located at: {{ zuul.executor.work_root }}/src/{{ zuul.project.canonical_name }}"
-
-    - name: 2. List all files in that specific path
-      shell: "ls -R {{ zuul.executor.work_root }}/src/{{ zuul.project.canonical_name }}"
-      register: directory_contents
+    - name: Check if README.md exists
+      stat:
+        path: "{{ zuul.project.src_dir }}/README.md"
+      register: readme_file
       delegate_to: localhost
-      ignore_errors: yes
 
-    - name: 3. Show the file list
-      debug:
-        var: directory_contents.stdout_lines
+    - name: Fail if README.md is missing
+      fail:
+        msg: "ERROR: README.md was not found in the repository!"
+      when: not readme_file.stat.exists
 
-    - name: 4. Wait so you can read the log
+    - name: Success Wait
       command: sleep 10
