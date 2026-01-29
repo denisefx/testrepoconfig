@@ -1,9 +1,5 @@
 - hosts: all
   tasks:
-    - name: Wait for 60 seconds so I can see the logs
-      pause:
-        seconds: 60
-
     - name: Ensure README.md is GONE
       stat:
         path: "{{ zuul.project.src_dir }}/README.md"
