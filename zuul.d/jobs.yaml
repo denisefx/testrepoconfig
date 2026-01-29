@@ -5,4 +5,4 @@
       nodes:
         - label: ubuntu-jammy
           name: controller
-    run: playbooks/test.yaml
+    run: github.com/denisefx/testrepoconfig/playbooks/test.yaml
