@@ -24,9 +24,9 @@
       github:
         status: 'success'
       gitlab:
-        status: 'success'
+        {}
     failure:
       github:
         status: 'failure'
       gitlab:
-        status: 'failure'
+        {}
