@@ -11,9 +11,22 @@
         - event: pull_request
           action: comment
           comment: (?i)^\s*recheck\s*$
+      gitlab:
+        - event: gl_merge_request
+          action:
+            - opened
+            - changed
+            - reopened
+        - event: gl_merge_request
+          action: comment
+          comment: (?i)^\s*recheck\s*$
     success:
       github:
         status: 'success'
+      gitlab:
+        status: 'success'
     failure:
       github:
+        status: 'failure'
+      gitlab:
         status: 'failure'
