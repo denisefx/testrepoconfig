@@ -9,7 +9,7 @@
 
 - job:
     name: c-builder
-    parent: base
+    parent: null
     nodeset:
       nodes:
         - label: gcc-builder
