@@ -7,3 +7,12 @@
           name: controller
     run: playbooks/test.yaml
 
+- job:
+    name: c-builder
+    parent: base
+    nodeset:
+      nodes:
+        - label: gcc-builder
+          name: mynode
+    run: playbooks/compile.yaml
+
