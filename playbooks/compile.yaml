@@ -1,0 +1,24 @@
+- hosts: all
+  tasks:
+    - name: Compile the C program
+      shell: "gcc {{ zuul.project.src_dir }}/main.c -o my_compiled_app"
+      args:
+        chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
+
+    - name: Verify the build exists
+      stat:
+        path: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/my_compiled_app"
+      register: file_check
+
+    - name: Run the compiled program
+      command: "./my_compiled_app"
+      args:
+        chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
+      register: app_output
+      when: file_check.stat.exists
+
+    - name: Display the program output
+      debug:
+        msg: 
+          - "Standard Output: {{ app_output.stdout }}"
+          - "Return Code: {{ app_output.rc }}"
