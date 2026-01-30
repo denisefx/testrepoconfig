@@ -6,3 +6,13 @@
         - label: ubuntu-jammy
           name: controller
     run: playbooks/test.yaml
+    
+- job:
+    name: gitlab_job
+    parent: null
+    nodeset:
+      nodes:
+        - label: ubuntu-jammy
+          name: controller
+    run: playbooks/gitlabfile.yaml
+
