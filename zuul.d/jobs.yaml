@@ -1,10 +1,8 @@
-# --- Nodesets ---
 - nodeset:
     name: thinkpad-node
     nodes:
       - label: gcc-builder
         name: mynode
-        # For nodesets, connection vars go under host_vars
         host_vars:
           ansible_user: denis
           ansible_ssh_private_key_file: /var/ssh/id_rsa
@@ -16,7 +14,6 @@
       - label: ubuntu-jammy
         name: controller
 
-# --- Jobs ---
 - job:
     name: new-job
     parent: null
