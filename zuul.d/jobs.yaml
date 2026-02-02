@@ -14,5 +14,9 @@
       nodes:
         - label: gcc-builder
           name: mynode
+    vars:
+      ansible_user: denis
+      ansible_ssh_private_key_file: /var/lib/zuul/.ssh/id_ed25519
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
     run: playbooks/compile.yaml
 
