@@ -1,21 +1,30 @@
+# --- Nodeset for your ThinkPad ---
+- nodeset:
+    name: thinkpad-node
+    nodes:
+      - label: gcc-builder
+        name: mynode
+    vars:
+      ansible_user: denis
+      ansible_ssh_private_key_file: /var/ssh/id_rsa
+      ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+
+# --- Nodeset for the Controller ---
+- nodeset:
+    name: controller-node
+    nodes:
+      - label: ubuntu-jammy
+        name: controller
+
+# --- The Jobs ---
 - job:
     name: new-job
     parent: null
-    nodeset:
-      nodes:
-        - label: ubuntu-jammy
-          name: controller
+    nodeset: controller-node
     run: playbooks/test.yaml
 
 - job:
     name: c-builder
     parent: null
-    nodeset:
-      nodes:
-        - label: gcc-builder
-          name: mynode
-      vars:
-        ansible_user: denis
-        ansible_ssh_private_key_file: /var/ssh/id_rsa
-        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+    nodeset: thinkpad-node
     run: playbooks/compile.yaml
