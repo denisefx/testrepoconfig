@@ -5,9 +5,9 @@
         path: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
         state: directory
 
-    - name: Synchronize code to the node
-      # This copies the code from the Zuul Executor to your ThinkPad
-      synchronize:
+    - name: Copy code to the node
+      # This uses the established connection instead of a new SSH call
+      copy:
         src: "{{ zuul.executor.work_root }}/{{ zuul.project.src_dir }}/"
         dest: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/"
 
