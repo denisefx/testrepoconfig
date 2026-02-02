@@ -12,7 +12,7 @@
         dest: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}/"
 
     - name: Compile the C program
-      shell: "gcc main.c -o my_compiled_app"
+      shell: "gcc test.c -o my_compiled_app"
       args:
         chdir: "{{ ansible_user_dir }}/{{ zuul.project.src_dir }}"
 
